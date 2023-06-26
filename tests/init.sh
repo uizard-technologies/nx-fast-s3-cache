@@ -4,7 +4,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-if [ "${ACT:-false}" = "true" ]; then
+if [[ "${ACT:-false}" == "true" ]]; then
   # install missing packages if running using nektos/act
   sudo apt-get update
   sudo apt-get install -y parallel pigz
