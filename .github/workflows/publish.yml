@@ -1,0 +1,39 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    name: Publish
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Build
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Bump the version
+        uses: phips28/gh-action-bump-version@0a5ec790bacbcce44005b6a806310cfcca5f32a6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish the package
+        run: |
+          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/.npmrc
+          npm run publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
