@@ -21,6 +21,26 @@ jobs:
         with:
           node-version-file: ".nvmrc"
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
       - run: |
-          npm ci
+          npm ci --no-audit --no-fund
           npm run build
+
+      - name: Initialize integration tests
+        run: |
+          ./tests/init.sh
+
+      - name: Run integration tests
+        run: |
+          ./tests/run.sh
+        env:
+          NXCACHE_S3_ENDPOINT: http://127.0.0.1:4566
+          NXCACHE_S3_BUCKET: cache-bucket
+          NXCACHE_S3_REGION: us-east-1
+          NXCACHE_S3_FORCE_PATH_STYLE: true
+          AWS_ACCESS_KEY_ID: sample
+          AWS_SECRET_ACCESS_KEY: sample
+          AWS_SESSION_TOKEN: sample
