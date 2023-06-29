@@ -1,5 +1,5 @@
-import { RemoteCache } from "@nrwl/workspace/src/tasks-runner/default-tasks-runner";
-import defaultTasksRunner from "@nrwl/workspace/tasks-runners/default";
+import { RemoteCache } from "@nx/workspace/src/tasks-runner/default-tasks-runner";
+import defaultTasksRunner from "@nx/workspace/tasks-runners/default";
 import { createRemoteCacheRetrieve } from "./create-remote-cache-retrieve";
 import { createRemoteCacheStore } from "./create-remote-cache-store";
 import { getSafeRemoteCacheImplementation } from "./get-safe-remote-cache-implementation";
@@ -23,17 +23,21 @@ const createRemoteCache = (
   };
 };
 
-export const createCustomRunner = <T extends Object>(
-  setup: (options: CustomRunnerOptions<T>) => Promise<RemoteCacheImplementation>
-): DefaultTasksRunner => (tasks, options, context) =>
-  defaultTasksRunner(
-    tasks,
-    {
-      ...options,
-      remoteCache: createRemoteCache(
-        setup(options as CustomRunnerOptions<T>),
-        options
-      ),
-    },
-    context
-  );
+export const createCustomRunner =
+  <T extends Object>(
+    setup: (
+      options: CustomRunnerOptions<T>
+    ) => Promise<RemoteCacheImplementation>
+  ): DefaultTasksRunner =>
+  (tasks, options, context) =>
+    defaultTasksRunner(
+      tasks,
+      {
+        ...options,
+        remoteCache: createRemoteCache(
+          setup(options as CustomRunnerOptions<T>),
+          options
+        ),
+      },
+      context
+    );

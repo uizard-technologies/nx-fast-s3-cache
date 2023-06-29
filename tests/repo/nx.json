@@ -1,11 +1,14 @@
 {
-  "extends": "@nrwl/workspace/presets/npm.json",
+  "extends": "@nx/workspace/presets/npm.json",
   "npmScope": "root",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@uizard/nx-fast-s3-cache",
       "options": {
-        "cacheableOperations": ["init-ci", "build-ci"]
+        "cacheableOperations": [
+          "init-ci",
+          "build-ci"
+        ]
       }
     }
   },
@@ -21,7 +24,7 @@
     "defaultBase": "main"
   },
   "pluginsConfig": {
-    "@nrwl/js": {
+    "@nx/js": {
       "analyzeSourceFiles": false,
       "analyzePackageJson": false
     }

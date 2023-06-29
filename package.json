@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/uizard-technologies/nx-fast-s3-cache#readme",
   "devDependencies": {
-    "@nrwl/workspace": "^15.3.3",
+    "@nrwl/workspace": "^16.4.0",
     "@types/bluebird": "^3.5.38",
     "@types/node": "^20.2.5",
     "@types/yargs": "^17.0.13",
@@ -49,6 +49,6 @@
     "dotenv": "^16.0.3"
   },
   "peerDependencies": {
-    "@nrwl/workspace": "^15.3.3"
+    "@nrwl/workspace": "^16.4.0"
   }
 }
