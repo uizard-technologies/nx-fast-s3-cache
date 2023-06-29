@@ -6,8 +6,8 @@ cd "$(dirname "$0")"
 
 cd repo
 
-npx --no nx run sample-project:init-ci
-npx --no nx run sample-project:build-ci
+npx --no nx run sample-project:init-ci --verbose
+npx --no nx run sample-project:build-ci --verbose
 
 awslocal s3 sync s3://cache-bucket/ cache-bucket
 

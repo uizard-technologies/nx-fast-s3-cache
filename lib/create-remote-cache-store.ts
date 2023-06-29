@@ -1,4 +1,4 @@
-import { RemoteCache } from "@nrwl/workspace/src/tasks-runner/default-tasks-runner";
+import { RemoteCache } from "@nx/workspace/src/tasks-runner/default-tasks-runner";
 import path from "path";
 import { getFileNameFromHash } from "./get-file-name-from-hash";
 import { RemoteCacheImplementation } from "./types/remote-cache-implementation";

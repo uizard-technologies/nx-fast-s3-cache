@@ -132,7 +132,7 @@ export default async (options: CustomRunnerOptions<S3Options>) => {
       await extractFolder(tmpFile, destination);
       timings.extract = Date.now() - timings.extract;
 
-      fs.rmdir(tmpFolder, { recursive: true }, () => {});
+      fs.rm(tmpFolder, { recursive: true }, () => {});
 
       return { path: destination, timings };
     },
