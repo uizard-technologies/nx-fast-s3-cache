@@ -1,0 +1,25 @@
+{
+  "name": "sample-project",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "tests/repo/sample-project/project.json",
+  "targets": {
+    "init-ci": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/node_modules"],
+      "options": {
+        "cwd": "sample-project",
+        "commands": ["npm install"]
+      }
+    },
+    "build-ci": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "cwd": "sample-project",
+        "commands": ["npm run build"]
+      }
+    }
+  },
+  "tags": []
+}
