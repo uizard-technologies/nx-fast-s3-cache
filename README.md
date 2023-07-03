@@ -20,7 +20,6 @@ The default Linux Github Actions runners already comply with the following requi
 npm install @uizard/nx-fast-s3-cache --save-dev
 ```
 
-
 ## Configuration
 
 | Parameter        | Description                                                                                                                                           | Environment Variable / .env   | `nx.json`        |
@@ -34,13 +33,14 @@ npm install @uizard/nx-fast-s3-cache --save-dev
 | Read Only        | Optional. Disable writing cache to the S3 bucket. This may be useful if you only want to write to the cache from a CI but not localhost.              | `NXCACHE_S3_READ_ONLY`        | `readOnly`       |
 
 `nx.json`:
+
 ```json
 {
   "tasksRunnerOptions": {
-    "default": {
+    "ci-runner": {
       "runner": "@uizard/nx-fast-s3-cache",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "e2e"],
+        "cacheableOperations": ["init", "build", "test", "lint", "e2e"],
         "endpoint": "https://some-endpoint.com",
         "bucket": "name-of-bucket",
         "prefix": "prefix/",
@@ -49,6 +49,28 @@ npm install @uizard/nx-fast-s3-cache --save-dev
         "forcePathStyle": true,
         "readOnly": false
       }
+    },
+    "default": {
+      "runner": "@nx/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": []
+      }
+    }
+  },
+  "namedInputs": {
+    "dependency-files-collection": [
+      "{projectRoot}/package-lock.json",
+      "{projectRoot}/yarn.lock",
+      "{projectRoot}/requirements*.txt",
+      "{projectRoot}/pyproject.toml",
+      "{projectRoot}/.nvmrc",
+      "{projectRoot}/.python-version"
+    ]
+  },
+  "targetDefaults": {
+    "init": {
+      "inputs": ["dependency-files-collection"],
+      "outputs": ["{projectRoot}/venv", "{projectRoot}/node_modules"]
     }
   }
 }
@@ -62,20 +84,20 @@ Authentication is handled by [@aws-sdk/credential-provider-node](https://docs.aw
 - Shared credentials and config ini files
 - The EC2/ECS Instance Metadata Service
 
-
 ## Usage
 
 Running tasks should now show the storage or retrieval from the remote cache, with additional information on the duration of each step:
 
 ```
+nx run --runner=ci-runner <project>:<target>
+...
+...
 ------------------------------------------------------------------------------
 Stored to remote cache: S3 (total:13163ms/compress:10104ms/upload:3059ms)
 File: d5b82b049e031a312104d3f196f459a6c551c5e1a4a510c1f8a9bfe0f391d998.tar.gz
 ------------------------------------------------------------------------------
 
 ```
-
-
 
 ## Credits
 
