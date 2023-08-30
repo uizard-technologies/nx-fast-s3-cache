@@ -9,8 +9,6 @@ Popular caching libraries prioritize portability over speed, but this prevents N
 
 ## Requirements
 
-The default Linux Github Actions runners already comply with the following requirements:
-
 1. GNU `tar` (or compatible) executable at `/usr/bin/tar`
 2. The `pigz` executable should be in `PATH` so `tar` can find it
 
