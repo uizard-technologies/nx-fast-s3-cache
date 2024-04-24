@@ -1,6 +1,6 @@
 {
   "name": "@uizard/nx-fast-s3-cache",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Nx s3 cache using GNU tar, pigz and multipart s3 uploads/downloads",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
