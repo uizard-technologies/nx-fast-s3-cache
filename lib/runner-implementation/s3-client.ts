@@ -1,6 +1,6 @@
 import { S3 } from "@aws-sdk/client-s3";
 import { defaultProvider } from "@aws-sdk/credential-provider-node";
-import { getDefaultRoleAssumerWithWebIdentity } from "@aws-sdk/client-sts";
+import { getDefaultRoleAssumer, getDefaultRoleAssumerWithWebIdentity } from "@aws-sdk/client-sts";
 
 import type { S3ClientConfig } from "@aws-sdk/client-s3/dist-types/S3Client";
 import type { DefaultProviderInit } from "@aws-sdk/credential-provider-node/dist-types/defaultProvider";
@@ -44,6 +44,7 @@ const getCredentialsProvider = (
     return defaultProvider({
       profile: process.env[ENV_PROFILE] ?? options.profile,
       roleAssumerWithWebIdentity: getDefaultRoleAssumerWithWebIdentity(),
+      roleAssumer: getDefaultRoleAssumer(),
     });
   }
 };
