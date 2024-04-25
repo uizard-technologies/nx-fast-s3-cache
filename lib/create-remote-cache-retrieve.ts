@@ -23,8 +23,14 @@ export const createRemoteCacheRetrieve =
       return false;
     }
 
+    const { fileExists, retrieveFile, writeOnly } = implementation;
+
+    if (writeOnly) {
+      // cannot retrieve from write-only cache
+      return false;
+    }
+
     const file = getFileNameFromHash(hash);
-    const { fileExists, retrieveFile } = implementation;
     const fileExistsRes = await fileExists(file);
 
     if (!fileExistsRes?.result) {

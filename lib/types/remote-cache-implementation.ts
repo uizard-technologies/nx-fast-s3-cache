@@ -1,5 +1,9 @@
 export interface RemoteCacheImplementation {
   /**
+   * Whether the remote cache is write-only, existing cache won't be fetched.
+   */
+  writeOnly: boolean;
+  /**
    * Stores the file on the remote cache.
    * @param filename Filename of the file..
    * @param data Buffer of the data that will be stored on the remote cache.

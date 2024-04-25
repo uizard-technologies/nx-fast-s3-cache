@@ -1,3 +1,4 @@
+import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import { initEnv } from "../init-env";
@@ -6,8 +7,7 @@ import { RemoteCacheImplementation } from "../types/remote-cache-implementation"
 import { downloadFromS3 } from "./download";
 import { buildS3Client } from "./s3-client";
 import { uploadToS3 } from "./upload";
-import { buildCommonCommandInput, isReadOnly } from "./util";
-import { spawn } from "child_process";
+import { buildCommonCommandInput, isReadOnly, isWriteOnly } from "./util";
 
 const extractFolder = async (zipFilePath: string, destination: string) => {
   await fs.mkdirSync(destination, { recursive: true });
@@ -80,12 +80,14 @@ export interface S3Options {
   prefix?: string;
   profile?: string;
   readOnly?: boolean;
+  writeOnly?: boolean;
   region?: string;
 }
 
 const ENV_BUCKET = "NXCACHE_S3_BUCKET";
 const ENV_PREFIX = "NXCACHE_S3_PREFIX";
 const ENV_READ_ONLY = "NXCACHE_S3_READ_ONLY";
+const ENV_WRITE_ONLY = "NXCACHE_S3_WRITE_ONLY";
 
 export default async (options: CustomRunnerOptions<S3Options>) => {
   initEnv(options);
@@ -98,6 +100,7 @@ export default async (options: CustomRunnerOptions<S3Options>) => {
 
   const config: RemoteCacheImplementation = {
     name: "S3",
+    writeOnly: isWriteOnly(options, ENV_WRITE_ONLY),
     fileExists: async (filename: string) => {
       try {
         const result = await s3Client.headObject(
