@@ -48,11 +48,12 @@ export const getSafeRemoteCacheImplementation = async (
 
   try {
     const implementation = await implementationPromise;
-    const { fileExists, storeFile, retrieveFile } = implementation;
+    const { fileExists, storeFile, retrieveFile, writeOnly } = implementation;
     const name =
       process.env.NXCACHE_NAME || options.name || implementation.name;
 
     return {
+      writeOnly,
       name,
       retrieveFile: attachLogsToFileOperation({
         operation: retrieveFile,

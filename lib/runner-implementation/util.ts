@@ -26,3 +26,14 @@ export const isReadOnly = (
   }
   return options.readOnly ?? false;
 };
+
+export const isWriteOnly = (
+  options: CustomRunnerOptions<S3Options>,
+  envWriteOnly: string
+) => {
+  if (typeof process.env[envWriteOnly] !== "undefined") {
+    if (process.env[envWriteOnly]?.toLowerCase() === "true") return true;
+    if (process.env[envWriteOnly]?.toLowerCase() === "false") return false;
+  }
+  return options.writeOnly ?? false;
+};
